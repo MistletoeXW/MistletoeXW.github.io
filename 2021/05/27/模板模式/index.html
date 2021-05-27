@@ -1,10 +1,19 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="“组件协作”模式        现代软件专业分工之后的第一个结果是”框架与应用程序的划分”,”组件协作”模式是通过晚期绑定,来实现框架与应用程序之间的松耦合,是二者之间协作时常用的模式 典型模式分为: Template Method(模板方法模式) Strategy (策略模式) Observe &#x2F; Event (观察者模式)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模板方法模式">
+<meta property="og:url" content="http://example.com/2021/05/27/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="“组件协作”模式        现代软件专业分工之后的第一个结果是”框架与应用程序的划分”,”组件协作”模式是通过晚期绑定,来实现框架与应用程序之间的松耦合,是二者之间协作时常用的模式 典型模式分为: Template Method(模板方法模式) Strategy (策略模式) Observe &#x2F; Event (观察者模式)">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/MistletoeXW/image/master/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%B1%BB%E5%9B%BE.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/MistletoeXW/image/master/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F%E5%9B%BE1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/MistletoeXW/image/master/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F%E5%9B%BE2.jpg">
+<meta property="article:published_time" content="2021-05-27T14:48:55.000Z">
+<meta property="article:modified_time" content="2021-05-27T15:59:24.757Z">
 <meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary"><title>Hexo</title><link ref="canonical" href="http://example.com/index.html"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+<meta property="article:tag" content="设计模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MistletoeXW/image/master/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%B1%BB%E5%9B%BE.jpg"><title>模板方法模式 | Hexo</title><link ref="canonical" href="http://example.com/2021/05/27/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
 var CONFIG = {
   root: '/',
   algolia: undefined,
@@ -28,7 +37,7 @@ var CONFIG = {
   sourcePath: {"js":"js","css":"css","images":"images"},
 };
 
-window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">Home</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">Archives</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">Categories</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">Tags</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2025/05/26/total/">Mistletoe`s Blog</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2025-05-26</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2021-05-26</span></span></div></header><div class="post-body"><div class="post-excerpt"></div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/05/27/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/">模板方法模式</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2021-05-27</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2021-05-27</span></span></div></header><div class="post-body"><div class="post-excerpt">
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">Home</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">Archives</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">Categories</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">Tags</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">模板方法模式</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2021-05-27</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2021-05-27</span></span></div></header><div class="post-body">
         <h3 id="“组件协作”模式"   >
           <a href="#“组件协作”模式" class="heading-link"><i class="fas fa-link"></i></a><a href="#“组件协作”模式" class="headerlink" title="“组件协作”模式"></a>“组件协作”模式</h3>
       <ul>
@@ -71,121 +80,9 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></he
 <li>在具体实现方面,被TemplateMethod调用的虚方法可以有具体的实现,也可以没有任何实现(抽象方法,纯虚方法),但 <strong>一般推荐将其设置为protected方法</strong>.<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Libary</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//稳定</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">step1</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//步骤一...</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//稳定</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">step3</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//步骤三...</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//稳定</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">step5</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//步骤五...</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//变化</span></span><br><span class="line">  <span class="function"><span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">step2</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">step4</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//稳定</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123; <span class="comment">// Template Ｍethod</span></span><br><span class="line">    <span class="comment">//步骤一</span></span><br><span class="line">    step1;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//步骤二</span></span><br><span class="line">    <span class="keyword">if</span>(step2)&#123; <span class="comment">//支持变化 ===&gt; 虚函数的多态调用</span></span><br><span class="line">        <span class="comment">//步骤三</span></span><br><span class="line">        step3;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//步骤四</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">        step4;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//步骤五</span></span><br><span class="line">    step5;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></div></figure></li>
 </ul>
 <figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Application</span> <span class="title">extend</span> <span class="title">Libary</span></span>&#123;</span><br><span class="line">  <span class="comment">//变化</span></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">step2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//步骤二...</span></span><br><span class="line">    retuen <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//变化</span></span><br><span class="line">  <span class="function">override</span></span><br><span class="line"><span class="function">  <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">step4</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//步骤4...</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</span><br><span class="line"></span><br><span class="line">      Libary lib = <span class="keyword">new</span> Application(); <span class="comment">//多态</span></span><br><span class="line">      lib.run();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
-</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/05/26/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E5%88%99/">设计模式原则</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2021-05-26</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2021-05-26</span></span></div></header><div class="post-body"><div class="post-excerpt">
-        <h3 id="设计模式"   >
-          <a href="#设计模式" class="heading-link"><i class="fas fa-link"></i></a><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h3>
-      
-        <h4 id="1-什么是设计模式"   >
-          <a href="#1-什么是设计模式" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-什么是设计模式" class="headerlink" title="1.什么是设计模式?"></a>1.什么是设计模式?</h4>
-      <ul>
-<li>每一个设计模式描述了一个在我们周围不断重复发生的问题,以及该问题的解决方案的核心.这样就能一次又一次地使用该方案而不必做重复的劳动.</li>
-<li>底层思维: 向下,如何把握机器底层从微观理解对象构造<ul>
-<li>语言构造</li>
-<li>编译转换</li>
-<li>内存模型</li>
-<li>运行时机制</li>
-</ul>
-</li>
-<li>抽象思维: 向上,如何将我们的周围世界抽象为程序世界.<ul>
-<li>面向对象</li>
-<li>组件封装</li>
-<li>设计模式</li>
-<li>架构模式
-        <h4 id="2-如何解决复杂性"   >
-          <a href="#2-如何解决复杂性" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-如何解决复杂性" class="headerlink" title="2.如何解决复杂性?"></a>2.如何解决复杂性?</h4>
-      </li>
-</ul>
-</li>
-<li>分解:面对复杂的问题有一个常见的做法:分而治之,将大问题分解为若干个小问题,将复杂问题分解为多个简单问题</li>
-<li>抽象:由于不能掌握全部的复杂对象,可以使用抽象去忽视非本质的细节,而去处理泛化和理想了的对象模型.
-        <h3 id="面向对象设计原则"   >
-          <a href="#面向对象设计原则" class="heading-link"><i class="fas fa-link"></i></a><a href="#面向对象设计原则" class="headerlink" title="面向对象设计原则"></a>面向对象设计原则</h3>
-      
-        <h4 id="依赖倒置原则-DIP"   >
-          <a href="#依赖倒置原则-DIP" class="heading-link"><i class="fas fa-link"></i></a><a href="#依赖倒置原则-DIP" class="headerlink" title="依赖倒置原则(DIP)"></a>依赖倒置原则(DIP)</h4>
-      </li>
-<li>高层模块 <strong>(稳定)</strong> 不应该依赖于低层模块 <strong>(变化)</strong>,二者都应该依赖于抽象 <strong>(稳定)</strong> .</li>
-<li>抽象 <strong>(稳定)</strong> 不应该依赖与实现细节 <strong>(变化)</strong>,实现细节应该依赖于抽象 <strong>(稳定)</strong>.
-        <h4 id="开放封闭原则-OCP"   >
-          <a href="#开放封闭原则-OCP" class="heading-link"><i class="fas fa-link"></i></a><a href="#开放封闭原则-OCP" class="headerlink" title="开放封闭原则(OCP)"></a>开放封闭原则(OCP)</h4>
-      </li>
-<li>对扩展开放,对修改封闭.</li>
-<li>类模块应该是可扩展的,但是不可修改.
-        <h4 id="单一职责原则-USP"   >
-          <a href="#单一职责原则-USP" class="heading-link"><i class="fas fa-link"></i></a><a href="#单一职责原则-USP" class="headerlink" title="单一职责原则(USP)"></a>单一职责原则(USP)</h4>
-      </li>
-<li>一个类应该仅有一个引起它变化的原因</li>
-<li>变化的方向隐含着类的责任
-        <h4 id="里式替换原则-LSP"   >
-          <a href="#里式替换原则-LSP" class="heading-link"><i class="fas fa-link"></i></a><a href="#里式替换原则-LSP" class="headerlink" title="里式替换原则(LSP)"></a>里式替换原则(LSP)</h4>
-      </li>
-<li>子类必须能够替换它们的基类(IS-A)</li>
-<li>继承表达类型抽象
-        <h4 id="接口隔离原则-ISP"   >
-          <a href="#接口隔离原则-ISP" class="heading-link"><i class="fas fa-link"></i></a><a href="#接口隔离原则-ISP" class="headerlink" title="接口隔离原则(ISP)"></a>接口隔离原则(ISP)</h4>
-      </li>
-<li>不应该强迫客户程序依赖他们不用的方法</li>
-<li>接口应该小而完备
-        <h4 id="优先使用对象组合-而不是继承"   >
-          <a href="#优先使用对象组合-而不是继承" class="heading-link"><i class="fas fa-link"></i></a><a href="#优先使用对象组合-而不是继承" class="headerlink" title="优先使用对象组合,而不是继承"></a>优先使用对象组合,而不是继承</h4>
-      </li>
-<li>类继承通常为”白箱复用”,对象组合通常为”黑箱复用”</li>
-<li>继承在某种程度上破坏了封装性,子类父类耦合度高,而对象的组合则只要求被组合的对象具有良好定义的接口,耦合度低.
-        <h3 id="设计模式分类"   >
-          <a href="#设计模式分类" class="heading-link"><i class="fas fa-link"></i></a><a href="#设计模式分类" class="headerlink" title="设计模式分类"></a>设计模式分类</h3>
-      </li>
-<li>GOF中的分类方式:<ul>
-<li><strong>创建型模式(Creational)</strong>: 将对象的部分创建工作延迟到子类或者其他对象,从而应对需求变化为对象创建时具体类型实现引来的冲击.</li>
-<li><strong>结构型模式(Structural)</strong>: 用过类继承或者对象组合获得更灵活的结构,从而应对需求变化为对象的结构带来的冲击.</li>
-<li><strong>行为型模式(Behavioral)</strong>: 通过类继承或者对象组合来划分类与对象间的职责,从而对需求变化为多个交互的对象带来的冲击.</li>
-</ul>
-</li>
-<li>从封装变化角度对模式分类<ul>
-<li><strong>组件协作</strong><ul>
-<li>Template Method (模板方法)</li>
-<li>Strategy (策略模式)</li>
-<li>Observer / Event (观察者模式)</li>
-</ul>
-</li>
-<li><strong>单一职责</strong><ul>
-<li>Decorator (装饰模式)</li>
-<li>Bridge (桥接模式)</li>
-</ul>
-</li>
-<li><strong>对象创建</strong><ul>
-<li>Factory Method (工厂方法)</li>
-<li>Abstract Foctory (抽象工厂)</li>
-<li>Protoype (原型模式)</li>
-<li>Builder (建造者模式)</li>
-</ul>
-</li>
-<li><strong>对象性能</strong><ul>
-<li>Singleton (单例模式)</li>
-<li>Flyweight (享元模式)</li>
-</ul>
-</li>
-<li><strong>接口隔离</strong><ul>
-<li>Facade (外观模式)</li>
-<li>Proxy (代理模式)</li>
-<li>Adapter (适配器模式)</li>
-<li>Mediator (中介模式)</li>
-</ul>
-</li>
-<li><strong>状态变化</strong><ul>
-<li>State (状态模式)</li>
-</ul>
-</li>
-<li><strong>数据结构</strong><ul>
-<li>Composite (组合模式)</li>
-<li>Iterator (迭代器模式)</li>
-</ul>
-</li>
-<li><strong>行为变化</strong><ul>
-<li>Command (命令模式)</li>
-<li>Visitor (访问者模式)</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div></div></article></section><nav class="paginator"><div class="paginator-inner"><span class="page-number current">1</span></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/user-logo.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Hard!</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/MistletoeXW" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">3</div><div class="sidebar-ov-state-item__name">Archives</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">1</div><div class="sidebar-ov-state-item__name">Categories</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">1</div><div class="sidebar-ov-state-item__name">Tags</div></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ END ------</div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://example.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2025/05/26/total/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Mistletoe`s Blog</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2021/05/26/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E5%88%99/"><span class="paginator-prev__text">设计模式原则</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">Catalog</span><span class="sidebar-nav-ov">Overview</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%9C%E7%BB%84%E4%BB%B6%E5%8D%8F%E4%BD%9C%E2%80%9D%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">
+          “组件协作”模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">
+          模板方法模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E4%BE%8B%E5%AD%90"><span class="toc-number">2.1.</span> <span class="toc-text">
+          代码例子</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E5%B8%B8%E8%A7%81%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">2.1.1.</span> <span class="toc-text">
+          第一种常见的处理方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F%E6%94%B9%E9%80%A0"><span class="toc-number">2.1.2.</span> <span class="toc-text">
+          模板方法模式改造</span></a></li></ol></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/user-logo.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Hard!</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/MistletoeXW" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">3</div><div class="sidebar-ov-state-item__name">Archives</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">1</div><div class="sidebar-ov-state-item__name">Categories</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">1</div><div class="sidebar-ov-state-item__name">Tags</div></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">You have read </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>
